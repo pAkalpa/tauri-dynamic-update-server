@@ -1,0 +1,14 @@
+[package]
+name = "dynamic_update_server"
+version = "0.1.0"
+edition = "2021"
+authors = ["pAkalpa"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = { version = "=0.5.0-rc.4", features = ["json"] }
+serde = { version = "1.0.197", features = ["derive"] }
+version-compare = "0.1"
+envy = "0.4"
+reqwest = { version = "0.11", features = ["json"] }
