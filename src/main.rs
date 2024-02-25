@@ -3,7 +3,6 @@ mod logics;
 
 #[macro_use] extern crate rocket;
 
-use rocket::fs::{FileServer, relative};
 use rocket::http::Status;
 use rocket::response::Redirect;
 use rocket::serde::json::Json;
@@ -44,12 +43,6 @@ fn index() -> Redirect {
     Redirect::permanent(conf.home_redirect_url)
 }
 
-#[get("/favicon.ico")]
-fn favicon() -> Redirect {
-    Redirect::to("/static/favicon.ico")
-}
-
-
 #[get("/<target>?<version>&<arch>")]
 async fn get_update_data(target: &str, version: &str, arch: &str) -> Result<Json<UpdateContent>, Status> {
     return match target {
@@ -72,6 +65,5 @@ async fn get_update_data(target: &str, version: &str, arch: &str) -> Result<Json
 fn rocket() -> _ {
     rocket::build()
         .attach(CORS)
-        .mount("/", routes![index, favicon, get_update_data])
-        .mount("/static", FileServer::from(relative!("static")))
+        .mount("/", routes![index, get_update_data])
 }
