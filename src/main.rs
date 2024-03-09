@@ -10,7 +10,7 @@ use crate::models::{Configs, UpdateContent};
 use rocket::http::Header;
 use rocket::{Request, Response};
 use rocket::fairing::{Fairing, Info, Kind};
-use crate::logics::windows_logic;
+use crate::logics::{get_release_data};
 
 pub struct CORS;
 
@@ -46,17 +46,11 @@ fn index() -> Redirect {
 #[get("/<target>?<version>&<arch>")]
 async fn get_update_data(target: &str, version: &str, arch: &str) -> Result<Json<UpdateContent>, Status> {
     return match target {
-        "windows" => {
-            match windows_logic(version).await {
+        "windows" | "linux" | "darwin" => {
+            match get_release_data(version, arch, target).await {
                 Some(data) => Ok(data),
                 None => Err(Status::NoContent)
             }
-        },
-        "linux" => {
-            Err(Status::NoContent)
-        },
-        "darwin" => {
-            Err(Status::NoContent)
         },
         _ => Err(Status::NoContent) }
 }
