@@ -20,12 +20,6 @@ async fn get_latest_release_data() -> Result<GetLatestReleaseResponse, Error> {
     Ok(res)
 }
 
-fn extract_url(response: &GetLatestReleaseResponse, category: &str) -> Vec<String> {
-    response.assets.iter().filter(|asset| {
-        asset.name.ends_with(category)
-    }).map(|asset| asset.browser_download_url.clone()).collect()
-}
-
 async fn extract_data_from_latest_json(response: &GetLatestReleaseResponse, platform: TargetPlatform) -> Option<Json<UpdateContent>> {
     let latest_json_url: Vec<String> = response.assets.iter().filter(|asset| {
         asset.name.eq_ignore_ascii_case("latest.json")
@@ -53,11 +47,6 @@ async fn extract_data_from_latest_json(response: &GetLatestReleaseResponse, plat
             Err(_e) => None
         }
     } else { None }
-}
-
-async fn get_signature(url: String) -> Result<String, Error> {
-    let response = reqwest::get(url).await?.text().await?;
-    Ok(response)
 }
 
 pub async fn get_release_data(version: &str, arch: &str, target: &str) -> Option<Json<UpdateContent>> {
