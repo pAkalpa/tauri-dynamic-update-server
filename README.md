@@ -40,7 +40,6 @@ The _production_ build of the api is optimized for performance and is performed 
 after installing the required dependencies.
 
 ```bash
-# .. repeat the steps above up to `npm install`, then:
 cargo build --release
 ```
 
