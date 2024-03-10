@@ -30,7 +30,7 @@
 ## start a tauri dynamic server instance
 
 ```console
-$ docker run --name dynamic-update-server -p 8000:8000 -e github_token=mygithubtoken -e github_repo_owner=mygithubusername -e github_repo_name=mytauriappreponame -d dynamicus:latest
+$ docker run --name dynamic-update-server -p 8000:8000 -e github_token=mygithubtoken -e github_repo_owner=mygithubusername -e github_repo_name=mytauriappreponame -d pasinduakalpa/dynamicus:latest
 ```
 
 ## ... via `docker-compose` or `docker stack deploy`
@@ -42,7 +42,7 @@ version: '3.9'
 
 services:
   api:
-    image: dynamicus:latest
+    image: pasinduakalpa/dynamicus:latest
     container_name: dynamic-update-server
     restart: always
     ports:
